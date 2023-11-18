@@ -21,6 +21,11 @@ export default function(input_tar) {
 			const type = fields[0][0]
 			const path = fields[8]
 
+			// ignore root path from archive
+			if (path === "./" || path === "/") {
+				return
+			}
+
 			entries.push({type, path})
 		})
 
