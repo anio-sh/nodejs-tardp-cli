@@ -1,7 +1,6 @@
-import getTarEntries from "./getTarEntries.mjs"
 import escapeshellarg from "./escapeshellarg.mjs"
 
-function entryToString(entry, defaults) {
+export default function(entry, defaults) {
 	const escaped_path = escapeshellarg(entry.path)
 
 	let tmp = `chown -h '${defaults.owner}' ${escaped_path}`
@@ -17,16 +16,4 @@ function entryToString(entry, defaults) {
 	}
 
 	return tmp
-}
-
-export default async function(input_tar, defaults) {
-	let script = `#!/bin/bash -euf\n`
-
-	const entries = await getTarEntries(input_tar)
-
-	for (const entry of entries) {
-		script += "\n" + entryToString(entry, defaults) + "\n"
-	}
-
-	return script
 }
