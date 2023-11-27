@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --experimental-detect-module
 import readline from "node:readline"
 import parseLine from "./parseLine.mjs"
 import entryToString from "./entryToString.mjs"
