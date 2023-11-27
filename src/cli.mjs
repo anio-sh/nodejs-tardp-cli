@@ -2,6 +2,7 @@
 import readline from "node:readline"
 import parseLine from "./parseLine.mjs"
 import entryToString from "./entryToString.mjs"
+import process from "node:process"
 
 let input = {
 	owner: null,

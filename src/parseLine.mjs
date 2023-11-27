@@ -1,4 +1,5 @@
 import normalizeWhitespace from "./normalizeWhitespace.mjs"
+import process from "node:process"
 
 export default function(line) {
 	const l = normalizeWhitespace(line)
