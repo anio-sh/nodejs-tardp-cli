@@ -1,5 +1,5 @@
 {
   "devDependencies": {
-    "@anio-sh/bundler": "^0.0.6"
+    "@anio-sh/bundler": "^0.1.0"
   }
 }
