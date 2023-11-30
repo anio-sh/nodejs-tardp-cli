@@ -1,62 +1,25 @@
 #!/usr/bin/env -S node --experimental-detect-module
-import readline from "node:readline"
-import parseLine from "./parseLine.mjs"
-import entryToString from "./entryToString.mjs"
 import process from "node:process"
+import main from "./index.mjs"
 
-let input = {
-	owner: null,
-	dmode: null,
-	fmode: null
-}
+const cli_args = process.argv.slice(2)
 
-if (process.argv.length >= 3) {
-	input.owner = process.argv[2]
-}
-
-if (process.argv.length >= 4) {
-	input.dmode = process.argv[3]
-}
-
-if (process.argv.length >= 5) {
-	input.fmode = process.argv[4]
-}
-
-if (process.argv.length > 5) {
-	process.stderr.write(`Too many arguments!\n`)
-	process.exit(2)
-}
-
-if (input.owner === null) {
+if (1 > cli_args.length || cli_args.length > 3) {
 	process.stderr.write(
-		`Usage: tar -tf archive.tar | anio_tardp <owner> [dmode] [fmode] > script.sh\n`
+		`Usage: tar -tf input.tar.gz | anio_tardp <owner> [dmode] [fmode] > script.sh\n`
 	)
 
 	process.exit(2)
 }
 
 try {
-	const rl = readline.createInterface({
-		input: process.stdin
+	await main({
+		owner: cli_args[0],
+		dmode: cli_args[1] ?? "0750",
+		fmode: cli_args[2] ?? "0640"
 	})
-
-	process.stdout.write(`#!/bin/bash -euf\n`)
-
-	rl.on("line", line => {
-		const parsed = parseLine(line)
-
-		if (parsed === null) return
-
-		process.stdout.write(
-			"\n" +
-			entryToString(parsed, {
-				owner: input.owner,
-				default_dir_mode: input.dmode ?? "0750",
-				default_file_mode: input.fmode ?? "0640"
-			}) + "\n"
-		)
-	})
-} catch (e) {
-	process.stderr.write(`${e.message}\n`)
+} catch (error) {
+	process.stderr.write(`${error.message}\n`)
+	process.stderr.write(`\n-- stack trace --\n${error.stack}\n`)
 	process.exit(1)
 }

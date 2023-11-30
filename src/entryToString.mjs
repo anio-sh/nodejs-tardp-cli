@@ -1,19 +1,17 @@
 import escapeshellarg from "./escapeshellarg.mjs"
 
-export default function(entry, defaults) {
-	const escaped_path = escapeshellarg(entry.path)
+export default function(path, {owner, dmode, fmode}) {
+	const escaped_path = escapeshellarg(path)
 
-	let tmp = `chown -h '${defaults.owner}' ${escaped_path}`
+	let tmp = `chown -h '${owner}' ${escaped_path}\n`
 
-	if (entry.type === "-") {
-		tmp += `\nchmod ${defaults.default_file_mode} ${escaped_path}`
-	} else if (entry.type === "d") {
-		tmp += `\nchmod ${defaults.default_dir_mode} ${escaped_path}`
-	} else if (entry.type === "l") {
-
-	} else {
-		throw new Error(`Unknown file type '${entry.type}'`)
-	}
+	tmp += `if [ ! -h ${escaped_path} ]; then\n`
+	tmp += `    if [ -d ${escaped_path} ]; then\n`
+	tmp += `        chmod ${dmode} ${escaped_path}\n`
+	tmp += `    else\n`
+	tmp += `        chmod ${fmode} ${escaped_path}\n`
+	tmp += `    fi\n`
+	tmp += `fi\n`
 
 	return tmp
 }

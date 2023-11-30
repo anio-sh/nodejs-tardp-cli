@@ -1,23 +1,10 @@
-import normalizeWhitespace from "./normalizeWhitespace.mjs"
-import process from "node:process"
-
 export default function(line) {
-	const l = normalizeWhitespace(line)
-	const fields = l.split(" ")
-
-	if (9 > fields.length) {
-		process.stderr.write(`Invalid formatted line '${line}'.\n`)
-
-		return null
-	}
-
-	const type = fields[0][0]
-	const path = fields[8]
+	const path = line
 
 	// ignore root path from archive
 	if (path === "./" || path === "/") {
 		return null
 	}
 
-	return {type, path}
+	return path
 }
