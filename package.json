@@ -2,6 +2,6 @@
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
-    "@anio-sh/bundler": "^1.0.0"
+    "anio-jsbundler": "^0.6.0"
   }
 }

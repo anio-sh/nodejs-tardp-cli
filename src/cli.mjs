@@ -1,4 +1,3 @@
-#!/usr/bin/env -S node --experimental-detect-module
 import process from "node:process"
 import main from "./index.mjs"
 
