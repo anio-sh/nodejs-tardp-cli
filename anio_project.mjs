@@ -1,3 +1,5 @@
 export default {
-	type: "app:cli"
+	type: "app:cli",
+
+	language: "js"
 }
