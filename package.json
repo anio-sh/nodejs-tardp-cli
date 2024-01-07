@@ -1,7 +1,7 @@
 {
-  "version": "1.0.0",
   "private": true,
   "devDependencies": {
-    "anio-jsbundler": "^0.6.0"
+    "@anio-gyp/project": "^0.3.0",
+    "anio-gyp": "^0.9.0"
   }
 }
